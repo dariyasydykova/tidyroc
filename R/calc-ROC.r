@@ -1,11 +1,12 @@
-#' A Cat Function
+#' Receiver operating curve (ROC)
 #'
 #' this function calculates true positive rate and false positive rate to make an ROC curve
-#' @param love Do you love cats? Defaults to TRUE.
-#' @keywords cats
+#' @param probabilities
+#'
+#' @keywords
 #' @export
 #' @examples
-#' cat_function()
+#' calc_ROC(glm.out$fitted.values, lr_data$Species, model.name = "model1", data = lr_data)
 
 calc_ROC <- function(probabilities, known.truth, model.name = NULL, data = NULL) {
 
