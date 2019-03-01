@@ -1,4 +1,4 @@
-#' Receiver operating curve (ROC)
+#' Receiver operating characteristic curve (ROC)
 #'
 #' this function calculates true positive rate and false positive rate to make an ROC curve
 #' @param probabilities
