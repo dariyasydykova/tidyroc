@@ -33,16 +33,24 @@ calc_ROC <- function(probabilities, known.truth, model.name = NULL, data = NULL)
     function(x) sum(neg_probs >= x) / neg
   )
 
-  # add model name to the results
+  # if given, add model name to the results
   if (is.null(model.name)) {
     result <- data.frame(true_pos, false_pos) %>%
-      add_row(true_pos = 0, false_pos = 0) %>%
+      add_row(true_pos = 0, false_pos = 0) %>% # add 0, 0 to extend an ROC curve
       arrange(false_pos, true_pos)
   } else {
     result <-
       data.frame(true_pos, false_pos, model_name = model.name) %>%
-      add_row(true_pos = 0, false_pos = 0, model_name = model.name) %>%
+      add_row(true_pos = 0, false_pos = 0, model_name = model.name) %>% # add 0, 0 to extend an ROC curve
       arrange(false_pos, true_pos)
+  }
+
+  # if given, add original data frame to the results
+  if (!is.null(data)) {
+    result <-
+      data %>%
+      add_row(.before = 1) %>%
+      data.frame(result)
   }
 
   result
