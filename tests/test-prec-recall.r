@@ -14,5 +14,7 @@ d <- glm(Species ~ Petal.Width + Petal.Length + Sepal.Width,
   prec_recall(predictor = .fitted, positive = Species)
 
 d %>%
-  ggplot(aes(false_pos, true_pos)) +
-  geom_line()
+  ggplot(aes(recall, precision)) +
+  geom_line() +
+  scale_x_continuous(limits = c(0, 1)) +
+  scale_y_continuous(limits = c(0, 1))

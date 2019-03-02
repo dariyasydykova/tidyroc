@@ -22,7 +22,6 @@ prec_recall <- function(data, predictor, positive) {
 
   # count total positives and total negatives to calculate true positive and false positive rates
   pos <- sum(pos_values) # total known positives
-  neg <- sum(1 - pos_values) # total known negatives
 
   # get predictor values for positive and negative outcomes to figure out whether it is a true positive or a false positive
   pos_pred <- pred_values[pos_values == 1] # predictors for known positives
@@ -37,7 +36,7 @@ prec_recall <- function(data, predictor, positive) {
   # calculate the positive predictive value
   precision <- sapply(
     pred_values,
-    function(x) sum(neg_pred >= x) / (sum(pos_pred >= x) + sum(neg_pred >= x))
+    function(x) sum(pos_pred >= x) / (sum(pos_pred >= x) + sum(neg_pred >= x))
   )
 
   # add recall and precision to the data-frame `data`
