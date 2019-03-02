@@ -10,14 +10,14 @@
 
 roc <- function(data, predictor, positive) {
 
-  #
+  # use tidy eval
   predictor <- rlang::enquo(predictor)
   positive <- rlang::enquo(positive)
 
   pred_values <- rlang::eval_tidy(predictor, data)
   pos_values <- rlang::eval_tidy(positive, data)
 
-  # convert categorical (`known_truth`) to numeric to perform calculations on it
+  # convert known outcomes to numeric to perform calculations on it
   # positives = 1, negatives = 0
   pos_values <- as.numeric(factor(pos_values)) - 1 # use factors to match glm() output
 
@@ -41,9 +41,10 @@ roc <- function(data, predictor, positive) {
     function(x) sum(neg_pred >= x) / neg
   )
 
+  # add true positive rate and false positive rate to the data-frame `data`
   # add true positive = 0 and false positive = 0 to make sure an ROC curve always starts at 0, 0
   data %>%
     mutate(true_pos, false_pos) %>%
     add_row(true_pos = 0, false_pos = 0) %>%
-    arrange(false_pos, true_pos) # order output by false positive and then true positive rate to plot an ROC curve correctly
+    arrange(false_pos, true_pos) # order output by false positive and then true positive rate to plot the ROC curve correctly
 }
