@@ -1,6 +1,6 @@
 #' Receiver operating characteristic (ROC) curve
 #'
-#' this function calculate true positive rate and false positive rate to make an ROC curve
+#' this function calculates true positive rate and false positive rate to make an ROC curve
 #' @param probabilities
 #'
 #' @keywords
@@ -8,7 +8,7 @@
 #' @examples
 #' roc()
 
-roc <- function(data, predictor, positive) {
+calc_roc <- function(data, predictor, positive) {
 
   # use tidy eval
   predictor <- rlang::enquo(predictor)

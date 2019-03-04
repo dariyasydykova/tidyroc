@@ -7,7 +7,7 @@
 #' @export
 #' @examples
 
-prec_recall <- function(data, predictor, positive) {
+calc_prec_recall <- function(data, predictor, positive) {
 
   # use tidy eval
   predictor <- rlang::enquo(predictor)
