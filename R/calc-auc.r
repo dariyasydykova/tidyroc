@@ -8,9 +8,9 @@
 #' @examples
 #'
 
-calc_auc <- function(data, true_pos, false_pos) {
+calc_auc <- function(x, y) {
   # use tidy eval
-  true_pos <- rlang::enquo(true_pos)
+  x <- rlang::enquo(x)
   false_pos <- rlang::enquo(false_pos)
 
   true_pos_values <- rlang::eval_tidy(true_pos, data)
@@ -21,5 +21,5 @@ calc_auc <- function(data, true_pos, false_pos) {
   height2 = true_pos_values - lag(true_pos_values)
   area = width*(height1 + height2 * 0.5)
 
-  data %>% mutate(auc = sum(area))
+  sum(area)
 }
