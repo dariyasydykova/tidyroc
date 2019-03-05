@@ -8,7 +8,7 @@
 #' @examples
 #' roc()
 
-calc_roc <- function(data, predictor, positive) {
+make_roc <- function(data, predictor, positive) {
 
   # use tidy eval
   predictor <- rlang::enquo(predictor)
