@@ -143,4 +143,3 @@ Examples
       theme_cowplot()
 
 ![](README_files/figure-markdown_strict/unnamed-chunk-2-1.png)
-![](README_files/figure-markdown_strict/unnamed-chunk-2-1.png)
