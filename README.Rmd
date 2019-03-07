@@ -23,7 +23,7 @@ This a repository for an R package `tidyroc`. `tidyroc` is currently under devel
 ## Examples
 
 #### Plot ROC curves for 2 different models
-```{r}
+```{r, message = FALSE}
 # load packages required to run this code chunk
 library(ggplot2)
 library(dplyr)
@@ -65,8 +65,9 @@ d %>%
   theme_cowplot()
 ```
 
+
 #### Plot precision-recall curves for 2 different models
-```{r}
+```{r, message = FALSE}
 # load packages required to run this code chunk
 library(ggplot2)
 library(dplyr)

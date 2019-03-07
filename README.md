@@ -25,39 +25,11 @@ Examples
     # load packages required to run this code chunk
     library(ggplot2)
     library(dplyr)
-
-    ## 
-    ## Attaching package: 'dplyr'
-
-    ## The following objects are masked from 'package:stats':
-    ## 
-    ##     filter, lag
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     intersect, setdiff, setequal, union
-
     library(broom)
     library(cowplot)
 
-    ## 
-    ## Attaching package: 'cowplot'
-
-    ## The following object is masked from 'package:ggplot2':
-    ## 
-    ##     ggsave
-
     # load tidyroc
     devtools::load_all(".")
-
-    ## Loading tidyroc
-
-    ## 
-    ## Attaching package: 'testthat'
-
-    ## The following object is masked from 'package:dplyr':
-    ## 
-    ##     matches
 
     # make a reduced iris data set that only contains virginica and versicolor species
     iris.small <- filter(iris, Species %in% c("virginica", "versicolor"))
@@ -104,8 +76,6 @@ Examples
 
     # load tidyroc
     devtools::load_all(".")
-
-    ## Loading tidyroc
 
     # make a reduced iris data set that only contains virginica and versicolor species
     iris.small <- filter(iris, Species %in% c("virginica", "versicolor"))
