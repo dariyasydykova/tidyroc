@@ -17,7 +17,7 @@ make_roc <- function(data, predictor, known_class) {
   known_values <- rlang::eval_tidy(known_class, data)
 
   # get binary classification values
-  df <- measure_perf(data,  pred_values,  pred_values)
+  df <- measure_perf(data, pred_values, known_values)
 
   # add true positive rate and false positive rate to the data-frame `data`
   # add true positive = 0 and false positive = 0 to make sure an ROC curve always starts at 0, 0
