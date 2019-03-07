@@ -8,8 +8,8 @@
 #' @examples
 #' roc()
 
+# this functions calculates the true positive rate (TPR)
 calc_tpr <- function(pred_values, pos_pred, pos){
-  # calculate the true positive rate
   true_pos_rate <- sapply(
     pred_values,
     function(x) sum(pos_pred >= x) / pos
@@ -18,18 +18,8 @@ calc_tpr <- function(pred_values, pos_pred, pos){
   true_pos_rate
 }
 
-calc_tnr <- function(pred_values, neg_pred, neg){
-  # calculate the true positive rate
-  true_neg_rate <- sapply(
-    pred_values,
-    function(x) sum(neg_pred < x) / neg
-  )
-
-  true_neg_rate
-}
-
+# this functions calculates the false positive rate (FPR)
 calc_fpr <-function(pred_values, neg_pred, neg){
-  # calculate the false positive rate
   false_pos_rate <- sapply(
     pred_values,
     function(x) sum(neg_pred >= x) / neg
@@ -38,8 +28,18 @@ calc_fpr <-function(pred_values, neg_pred, neg){
   false_pos_rate
 }
 
+# this functions calculates the true negative rate (TNR)
+calc_tnr <- function(pred_values, neg_pred, neg){
+  true_neg_rate <- sapply(
+    pred_values,
+    function(x) sum(neg_pred < x) / neg
+  )
+
+  true_neg_rate
+}
+
+# this functions calculates the false negative rate (FNR)
 calc_fnr <-function(pred_values, pos_pred, pos){
-  # calculate the false positive rate
   false_neg_rate <- sapply(
     pred_values,
     function(x) sum(pos_pred < x) / pos
@@ -48,6 +48,7 @@ calc_fnr <-function(pred_values, pos_pred, pos){
   false_neg_rate
 }
 
+# this functions calculates the positive predictive value (PPV)
 calc_ppv <- function(pred_values, pos_pred, neg_pred){
   pos_pred_value <- sapply(
     pred_values,
@@ -57,18 +58,20 @@ calc_ppv <- function(pred_values, pos_pred, neg_pred){
   pos_pred_value
 }
 
-measure_perf_ungrouped <- function(data, key, predictor, true_class) {
+# this function uses predictor values and known classification to measure performace of a binary classification model
+# this function works on data-frames that are not grouped
+measure_perf_ungrouped <- function(data, key, predictor, known_class) {
 
   # use tidy eval
   predictor <- rlang::enquo(predictor)
-  true_class <- rlang::enquo(true_class)
+  known_class <- rlang::enquo(known_class)
 
   pred_values <- rlang::eval_tidy(predictor, data)
-  pos_values <- rlang::eval_tidy(true_class, data)
+  known_values <- rlang::eval_tidy(known_class, data)
 
   # convert known outcomes to numeric to perform calculations on it
   # positives = 1, negatives = 0
-  pos_values <- as.numeric(factor(pos_values)) - 1 # use factors to match glm() output
+  pos_values <- as.numeric(factor(known_values)) - 1 # use factors to match glm() output
 
   # count total positives and total negatives to calculate true positive and false positive rates
   pos <- sum(pos_values) # total known positives
@@ -78,18 +81,19 @@ measure_perf_ungrouped <- function(data, key, predictor, true_class) {
   pos_pred <- pred_values[pos_values == 1] # predictors for known positives
   neg_pred <- pred_values[pos_values == 0] # predictors for known negatives
 
-  # add true positive rate and false positive rate to the data-frame `data`
-  # add true positive = 0 and false positive = 0 to make sure an ROC curve always starts at 0, 0
+  # adds true positive rate and false positive rate to the data-frame `data`
   data %>%
     dplyr::mutate(
-      tpr = calc_tpr(),
-      tnr = calc_tnr(),
-      fpr = calc_fpr(),
-      fnr = calc_fnr(),
-      ppv = calc_ppv()
+      tpr = calc_tpr(pred_values, pos_pred, pos),
+      fpr = calc_fpr(pred_values, neg_pred, neg),
+      tnr = calc_tnr(pred_values, neg_pred, neg),
+      fnr = calc_fnr(pred_values, pos_pred, pos),
+      ppv = calc_ppv(pred_values, pos_pred, neg_pred)
     )
 }
 
+# this function uses predictor values and known classification to measure performace of a binary classification model
+# this function works on grouped data-frames
 measure_perf <- function(data, ...) {
   group_map(data, measure_perf_ungrouped, ...)
 }
