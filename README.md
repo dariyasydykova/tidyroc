@@ -36,6 +36,14 @@ Examples
     ##     intersect, setdiff, setequal, union
 
     library(broom)
+    library(cowplot)
+
+    ## 
+    ## Attaching package: 'cowplot'
+
+    ## The following object is masked from 'package:ggplot2':
+    ## 
+    ##     ggsave
 
     # load tidyroc
     devtools::load_all(".")
@@ -72,8 +80,12 @@ Examples
     d <- bind_rows(d1, d2)
 
     # currently not working but this is the intention
-    #d %>%
-    #  group_by(model) %>% # group to get individual ROC curve for each model
-    #  make_roc(predictor = .fitted, known_class = Species) %>% # get values to plot an ROC curve
-    #  ggplot(aes(x = fpr, y = tpr, color = model)) +
-    #  geom_line()
+    d %>%
+      group_by(model) %>% # group to get individual ROC curve for each model
+      make_roc(predictor = .fitted, known_class = Species) %>% # get values to plot an ROC curve
+      ggplot(aes(x = fpr, y = tpr, color = model)) +
+      geom_line(size = 1.1) + 
+      scale_color_manual(values = c("#C04A56", "#3D8CF1")) +
+      theme_cowplot()
+
+![](README_files/figure-markdown_strict/unnamed-chunk-1-1.png)
