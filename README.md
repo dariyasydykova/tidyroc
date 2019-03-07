@@ -1,7 +1,7 @@
 tidyroc
 =======
 
-This a repository for an R package `tidyroc`. `tidyroc` is currently
+This is a repository for an R package `tidyroc`. `tidyroc` is currently
 under development, and I plan to release it this summer (summer 2019).
 
 Usage
@@ -68,40 +68,7 @@ Examples
 
 #### Plot precision-recall curves for 2 different models
 
-    # load packages required to run this code chunk
-    library(ggplot2)
-    library(dplyr)
-    library(broom)
-    library(cowplot)
-
-    # load tidyroc
-    devtools::load_all(".")
-
-    # make a reduced iris data set that only contains virginica and versicolor species
-    iris.small <- filter(iris, Species %in% c("virginica", "versicolor"))
-
-    # fit a logistic regression model to the data to assess the model's performance
-    d1 <- glm(Species ~ Petal.Width + Petal.Length + Sepal.Width,
-      data = iris.small,
-      family = binomial
-    ) %>%
-      augment() %>%
-      mutate(model = "model1") # name the model
-
-    ## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
-
-    # fit a different logistic regression model to the data to assess this model's performance
-    d2 <- glm(Species ~ Petal.Width,
-      data = iris.small,
-      family = binomial
-    ) %>%
-      augment() %>%
-      mutate(model = "model2") # name the model
-
-    # combine the two datasets to make an ROC curve for each model
-    d <- bind_rows(d1, d2)
-
-    # plot precision-recall curves
+    # plot precision-recall curves using the data-frame we generated in the previous example
     d %>%
       group_by(model) %>% # group to get individual precision-recall curve for each model
       make_pr(predictor = .fitted, known_class = Species) %>% # get values to plot a precision-recall curve
