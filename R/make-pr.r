@@ -7,12 +7,27 @@
 #' @export
 #' @examples
 
-calc_prec_recall <- function(data, predictor, positive) {
+# this function calls `measure_perf()` to get precision and recall
+# this function works on ungrouped data-frames
+make_pr_ungrouped <- function(data, key, predictor, positive) {
+  # use tidy eval
+  predictor <- rlang::enquo(predictor)
+  known_class <- rlang::enquo(known_class)
+
+  pred_values <- rlang::eval_tidy(predictor, data)
+  known_values <- rlang::eval_tidy(known_class, data)
+
   # get binary classification values
-  df <- measure_perf(data, predictor, known_class)
+  df <- measure_perf(data = data, predictor = pred_values, known_class = known_values)
 
   # add recall and precision to the data-frame `data`
   df %>%
-    dplyr::select(-c(tnr, fpr, fnr), recall = tpr, precision = ppv) %>%
+    dplyr::select(-c(tnr, fpr, fnr), recall = tpr, precision = ppv) %>% # remove extra columns to keep data-frames simpler
     dplyr::arrange(recall, desc(precision)) # order output by recall (ascending order) and then precision (descending order) to plot the precision-recall curve correctly
+}
+
+# this function calls `measure_perf()` to get precision and recall
+# this function works on grouped data-frames
+make_pr <- function(data, ...) {
+  group_map(data, make_pr_ungrouped, ...)
 }
