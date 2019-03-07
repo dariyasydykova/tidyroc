@@ -8,6 +8,7 @@
 #' @examples
 
 calc_prec_recall <- function(data, predictor, positive) {
+  # get binary classification values
   df <- measure_perf(data, predictor, known_class)
 
   # add recall and precision to the data-frame `data`

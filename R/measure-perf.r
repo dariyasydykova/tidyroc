@@ -1,6 +1,6 @@
 #'
 #'
-#' this function measures different binary classification values
+#' this function measures different binary classification values like true positive rate, false positive rate, true negative rate, false negative rate, and positive predictive value
 #' @param probabilities
 #'
 #' @keywords
