@@ -93,6 +93,7 @@ Examples
       theme_cowplot()
 
 ![](README_files/figure-markdown_strict/unnamed-chunk-1-1.png)
+![](README_files/figure-markdown_strict/unnamed-chunk-1-1.png)
 
 #### Plot precision-recall curves for 2 different models
 
@@ -141,4 +142,5 @@ Examples
       scale_color_manual(values = c("#C04A56", "#3D8CF1")) +
       theme_cowplot()
 
+![](README_files/figure-markdown_strict/unnamed-chunk-2-1.png)
 ![](README_files/figure-markdown_strict/unnamed-chunk-2-1.png)
