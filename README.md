@@ -92,8 +92,9 @@ Examples
       scale_color_manual(values = c("#C04A56", "#3D8CF1")) +
       theme_cowplot()
 
-![](README_files/figure-markdown_strict/unnamed-chunk-1-1.png) \#\#\#\#
-Plot precision-recall curves for 2 different models
+![](README_files/figure-markdown_strict/unnamed-chunk-1-1.png)
+
+#### Plot precision-recall curves for 2 different models
 
     # load packages required to run this code chunk
     library(ggplot2)
