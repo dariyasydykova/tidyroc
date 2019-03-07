@@ -9,7 +9,7 @@
 
 # this function calls `measure_perf()` to get precision and recall
 # this function works on ungrouped data-frames
-make_pr_ungrouped <- function(data, key, predictor, positive) {
+make_pr_ungrouped <- function(data, key, predictor, known_class) {
   # use tidy eval
   predictor <- rlang::enquo(predictor)
   known_class <- rlang::enquo(known_class)
