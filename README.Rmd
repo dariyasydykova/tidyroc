@@ -14,9 +14,9 @@ This is a repository for an R package `tidyroc`. `tidyroc` is currently under de
 
 `tidyroc` has 3 primary functions: 
 
-* to generate values to plot a receiver operating characteristic (ROC) curve  
-* to generate values to plot a precision-recall curve  
-* to calculate area under an ROC and precision-recall curves (AUC)
+* `make_ROC()` calculates true positive and false positive rates to plot a receiver operating characteristic (ROC) curve
+* `make_pr()` calculates presicion and recall (true positive rate) to plot a precision-recall curve  
+* `calc_auc()` calculates the area under an ROC (AUC)
 
 `tidyroc` is designed to be integrated with the Tidyverse. It is intended to work with `broom`, `dplyr`, and `ggplot2`.
 
