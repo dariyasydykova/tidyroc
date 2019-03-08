@@ -1,6 +1,6 @@
-#' Area under an ROC curve (AUC)
+#' Area under a curve (AUC)
 #'
-#' this function calculates the area under an ROC curve
+#' this function calculates the area under an ROC curve or the area under a precision-recall curve
 #' @param
 #'
 #' @keywords
@@ -9,17 +9,18 @@
 #'
 
 calc_auc <- function(x, y) {
-  # use tidy eval
-  x <- rlang::enquo(x)
-  false_pos <- rlang::enquo(false_pos)
+  # get the width between each point to get the width of the rectangle
+  width = lead(x) - x
 
-  true_pos_values <- rlang::eval_tidy(true_pos, data)
-  false_pos_values <- rlang::eval_tidy(false_pos, data)
+  # get the height of the rectanlge
+  height1 = y
 
-  width = false_pos_values - lag(false_pos_values)
-  height1 = true_pos_values
-  height2 = true_pos_values - lag(true_pos_values)
+  # get the height of the triangle
+  height2 = lead(y) - y
+
+  # calculate the area of the rectanlge and the triangle
   area = width*(height1 + height2 * 0.5)
 
-  sum(area)
+    # sum all the rectangles and triangles
+  sum(area, na.rm = TRUE)
 }
