@@ -22,10 +22,9 @@ make_roc_ungrouped <- function(data, key, predictor, known_class) {
   df <- measure_perf(data = data, predictor = pred_values, known_class = known_values)
 
   # add true positive rate and false positive rate to the data-frame `data`
-  # add true positive = 0 and false positive = 0 to make sure an ROC curve always starts at 0, 0
   df %>%
     dplyr::select(-c(tnr, fnr, ppv)) %>% # remove extra columns to keep data-frames simpler
-    dplyr::add_row(tpr = 0, fpr = 0) %>%
+    dplyr::add_row(tpr = 0, fpr = 0) %>% # add true positive = 0 and false positive = 0 to make sure an ROC curve is always anchored at 0, 0
     dplyr::arrange(fpr, tpr) # order output by false positive and then true positive rate to plot an ROC curve correctly
 }
 
