@@ -19,7 +19,6 @@ Usage
 intended to work with `broom`, `dplyr`, and `ggplot2`. Here is a simple
 use case.
 
-    # make an ROC plot
     glm(outcome ~ predictor1 + predictor2 + predictor3, # fit a model using 3 predictors
       data = df,
       family = binomial
@@ -32,10 +31,10 @@ use case.
 Examples
 --------
 
-Before I plot any curves, I fit two logitistic regression models. I will
-use the `iris` dataset to fit the models to. First, I need to reduce
-`iris` to only contain data for two species of irises. This ensures that
-our outcome is binary.
+Before I make any plots, I fit two logitistic regression models. I will
+use the `iris` dataset for this purpose. First, I reduce `iris` to only
+contain data for two species of irises. This ensures that the outcome is
+binary.
 
 I load the libraries needed to run the examples below.
 
@@ -49,9 +48,10 @@ I load the libraries needed to run the examples below.
     devtools::load_all(".")
 
 I reduce the `iris` dataset to contain information only about virginica
-and versicolor. The first model I fit tries to predict species with
-predictors petal width, petal length, and sepal width. The second I fit
-tries to predict species with predictor sepal width.
+and versicolor. I fit two logistic regression models that attempt to
+predict the two species of irises. The first model tries uses petal
+width, petal length, and sepal width as predictors. The second model
+uses only sepal width as a predictor.
 
     # reduce iris to two species to fit a model that is a binary classifier
     iris.small <- filter(iris, Species %in% c("virginica", "versicolor"))
@@ -76,6 +76,10 @@ tries to predict species with predictor sepal width.
 
     # combine the two datasets to make an ROC curve for each model
     glm.out <- bind_rows(glm.out1, glm.out2)
+
+Now that I have fitted values, I can make a plot with two ROC curves and
+a plot with two precision-recall curves. I can also calculate the area
+under each of the ROC curves.
 
 #### Plot ROC curves for 2 different models
 
