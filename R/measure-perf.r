@@ -12,7 +12,11 @@
 calc_tpr <- function(pred_values, pos_pred, pos){
   true_pos_rate <- sapply(
     pred_values,
-    function(x) sum(pos_pred >= x) / pos
+    function(x) if (is.na(x)) {
+      NA
+    } else{
+      sum(pos_pred >= x, na.rm = FALSE) / pos
+    }
   )
 
   true_pos_rate
@@ -22,7 +26,11 @@ calc_tpr <- function(pred_values, pos_pred, pos){
 calc_fpr <-function(pred_values, neg_pred, neg){
   false_pos_rate <- sapply(
     pred_values,
-    function(x) sum(neg_pred >= x) / neg
+    function(x) if (is.na(x)) {
+      NA
+    } else {
+      sum(neg_pred >= x, na.rm = FALSE) / neg
+    }
   )
 
   false_pos_rate
@@ -32,7 +40,11 @@ calc_fpr <-function(pred_values, neg_pred, neg){
 calc_tnr <- function(pred_values, neg_pred, neg){
   true_neg_rate <- sapply(
     pred_values,
-    function(x) sum(neg_pred < x) / neg
+    function(x) if (is.na(x)) {
+      NA
+    } else {
+      sum(neg_pred < x, na.rm = FALSE) / neg
+    }
   )
 
   true_neg_rate
@@ -42,7 +54,11 @@ calc_tnr <- function(pred_values, neg_pred, neg){
 calc_fnr <-function(pred_values, pos_pred, pos){
   false_neg_rate <- sapply(
     pred_values,
-    function(x) sum(pos_pred < x) / pos
+    function(x) if (is.na(x)) {
+      NA
+    } else {
+      sum(pos_pred < x, na.rm = FALSE) / pos
+    }
   )
 
   false_neg_rate
@@ -52,7 +68,11 @@ calc_fnr <-function(pred_values, pos_pred, pos){
 calc_ppv <- function(pred_values, pos_pred, neg_pred){
   pos_pred_value <- sapply(
     pred_values,
-    function(x) sum(pos_pred >= x) / (sum(pos_pred >= x) + sum(neg_pred >= x))
+    function(x) if (is.na(x)) {
+      NA
+    } else {
+      sum(pos_pred >= x, na.rm = FALSE) / (sum(pos_pred >= x, na.rm = FALSE) + sum(neg_pred >= x, na.rm = FALSE))
+    }
   )
 
   pos_pred_value
