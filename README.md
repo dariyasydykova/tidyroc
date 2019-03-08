@@ -38,10 +38,12 @@ binary.
 
 I load the libraries needed to run the examples below.
 
-    # load packages required to run this code chunk
+    # load tidyverse packages
     library(ggplot2)
     library(dplyr)
     library(broom)
+
+    # load cowplot to change plot theme
     library(cowplot)
 
     # load tidyroc

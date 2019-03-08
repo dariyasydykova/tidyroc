@@ -40,10 +40,12 @@ Before I make any plots, I fit two logitistic regression models. I will use the 
 
 I load the libraries needed to run the examples below.
 ```{r, message = FALSE}
-# load packages required to run this code chunk
+# load tidyverse packages
 library(ggplot2)
 library(dplyr)
 library(broom)
+
+# load cowplot to change plot theme
 library(cowplot)
 
 # load tidyroc
