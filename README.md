@@ -9,7 +9,7 @@ Usage
 
 `tidyroc` has 3 primary functions:
 
--   `make_ROC()` calculates true positive and false positive rates to
+-   `make_roc()` calculates true positive and false positive rates to
     plot a receiver operating characteristic (ROC) curve
 -   `make_pr()` calculates presicion and recall (true positive rate) to
     plot a precision-recall curve  
