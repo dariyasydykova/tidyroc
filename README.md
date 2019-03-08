@@ -61,7 +61,7 @@ Examples
       make_roc(predictor = .fitted, known_class = Species) %>% # get values to plot an ROC curve
       ggplot(aes(x = fpr, y = tpr, color = model)) +
       geom_line(size = 1.1) +
-      scale_color_manual(values = c("#C04A56", "#3D8CF1")) +
+      scale_color_manual(values = c("#001889", "#AB1488")) +
       theme_cowplot()
 
 ![](README_files/figure-markdown_strict/unnamed-chunk-1-1.png)
@@ -75,7 +75,7 @@ Examples
       ggplot(aes(x = recall, y = precision, color = model)) +
       geom_line(size = 1.1) +
       coord_cartesian(ylim = c(0,1), xlim = c(0,1)) +
-      scale_color_manual(values = c("#C04A56", "#3D8CF1")) +
+      scale_color_manual(values = c("#001889", "#AB1488")) +
       theme_cowplot()
 
 ![](README_files/figure-markdown_strict/unnamed-chunk-2-1.png)
