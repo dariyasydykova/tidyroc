@@ -19,12 +19,9 @@ Usage
 intended to work with `broom`, `dplyr`, and `ggplot2`. Here is a simple
 use case.
 
-    # reduce iris to two species to fit a model that is a binary classifier
-    iris.small <- filter(iris, Species %in% c("virginica", "versicolor"))
-
     # make an ROC plot
-    glm(Species ~ Petal.Width + Petal.Length + Sepal.Width, # fit a model using 3 predictors
-      data = iris.small,
+    glm(outcome ~ predictor1 + predictor2 + predictor3, # fit a model using 3 predictors
+      data = df,
       family = binomial
     ) %>%
       augment() %>% # use broom to add glm output to the original data frame
