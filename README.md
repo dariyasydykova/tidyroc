@@ -61,6 +61,7 @@ Examples
       make_roc(predictor = .fitted, known_class = Species) %>% # get values to plot an ROC curve
       ggplot(aes(x = fpr, y = tpr, color = model)) +
       geom_line(size = 1.1) +
+      geom_point() +
       scale_color_manual(values = c("#C04A56", "#3D8CF1")) +
       theme_cowplot()
 
@@ -79,3 +80,16 @@ Examples
       theme_cowplot()
 
 ![](README_files/figure-markdown_strict/unnamed-chunk-2-1.png)
+
+#### Calculate AUC of two ROC curves
+
+    d %>%
+      group_by(model) %>% # group to get individual precision-recall curve for each model
+      make_roc(predictor = .fitted, known_class = Species) %>% 
+      summarise(auc = calc_auc(x = fpr, y = tpr))
+
+    ## # A tibble: 2 x 2
+    ##   model    auc
+    ##   <chr>  <dbl>
+    ## 1 model1 0.997
+    ## 2 model2 0.980

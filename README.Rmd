@@ -61,6 +61,7 @@ d %>%
   make_roc(predictor = .fitted, known_class = Species) %>% # get values to plot an ROC curve
   ggplot(aes(x = fpr, y = tpr, color = model)) +
   geom_line(size = 1.1) +
+  geom_point() +
   scale_color_manual(values = c("#C04A56", "#3D8CF1")) +
   theme_cowplot()
 ```
@@ -77,5 +78,13 @@ d %>%
   coord_cartesian(ylim = c(0,1), xlim = c(0,1)) +
   scale_color_manual(values = c("#C04A56", "#3D8CF1")) +
   theme_cowplot()
+```
+
+#### Calculate AUC of two ROC curves
+```{r}
+d %>%
+  group_by(model) %>% # group to get individual precision-recall curve for each model
+  make_roc(predictor = .fitted, known_class = Species) %>% 
+  summarise(auc = calc_auc(x = fpr, y = tpr))
 ```
 
