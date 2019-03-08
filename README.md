@@ -92,7 +92,7 @@ under each of the ROC curves.
       scale_color_manual(values = c("#001889", "#AB1488")) +
       theme_cowplot()
 
-![](README_files/figure-markdown_strict/unnamed-chunk-4-1.png)
+![](figures/unnamed-chunk-4-1.png)
 
 #### Plot precision-recall curves for 2 different models
 
@@ -106,7 +106,7 @@ under each of the ROC curves.
       scale_color_manual(values = c("#001889", "#AB1488")) +
       theme_cowplot()
 
-![](README_files/figure-markdown_strict/unnamed-chunk-5-1.png)
+![](figures/unnamed-chunk-5-1.png)
 
 #### Calculate AUC of two ROC curves
 

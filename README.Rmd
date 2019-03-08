@@ -1,10 +1,13 @@
 ---
-title: "Untitled"
+title: "tidyroc"
 output: md_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(
+  echo = TRUE,
+  fig.path = "figures/"
+)
 ```
 # tidyroc
 
