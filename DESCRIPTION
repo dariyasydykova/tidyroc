@@ -1,10 +1,16 @@
 Package: tidyroc
-Title: (one line, title case)
+Title: Make ROC and precision-recall curves in tidyverse
 Version: 0.0.0.9000
-Authors@R: person("Dariya", "Sydykova", email = "dariya.k.sydykova@gmail.com", role = c("aut", "cre"))
+Authors@R: 
+    person(given = "Dariya",
+           family = "Sydykova", 
+           role = c("aut", "cre"),
+           email = "dariya.k.sydykova@gmail.com")
 Description: What the package does (one paragraph).
 Depends: R (>= 3.5.2)
-Imports: rlang, dplyr
+Imports: 
+    rlang,
+    dplyr
 Suggests: 
     broom,
     testthat
