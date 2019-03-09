@@ -94,8 +94,8 @@ measure_perf_ungrouped <- function(data, key, predictor, known_class) {
   pos_values <- as.numeric(factor(known_values)) - 1 # use factors to match glm() output
 
   # count total positives and total negatives to calculate true positive and false positive rates
-  pos <- sum(pos_values) # total known positives
-  neg <- sum(1 - pos_values) # total known negatives
+  pos <- sum(pos_values, na.rm = FALSE) # total known positives
+  neg <- sum(1 - pos_values, na.rm = FALSE) # total known negatives
 
   # get predictor values for positive and negative outcomes to figure out whether it is a true positive or a false positive
   pos_pred <- pred_values[pos_values == 1] # predictors for known positives
