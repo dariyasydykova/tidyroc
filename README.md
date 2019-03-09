@@ -91,6 +91,7 @@ under each of the ROC curves.
       make_roc(predictor = .fitted, known_class = Species) %>% # get values to plot an ROC curve
       ggplot(aes(x = fpr, y = tpr, color = model)) +
       geom_line(size = 1.1) +
+      geom_abline(slope = 1, intercept = 0, size = 0.4) + 
       scale_color_manual(values = c("#001889", "#AB1488")) +
       theme_cowplot()
 
