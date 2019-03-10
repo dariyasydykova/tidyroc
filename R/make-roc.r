@@ -6,7 +6,7 @@
 #' @keywords
 #' @export
 #' @examples
-#' roc()
+#'
 
 # this function calls `measure_perf()` to get true positive and false positive rates
 # this function works on ungrouped data-frames
