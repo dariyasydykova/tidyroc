@@ -1,9 +1,6 @@
+#' Calculate ROC and precision-recall curves
 #'
-#'
-#' @name
+#' @name tidyroc
 #' @docType package
-#' @useDynLib
-#' @importFrom
-#' @importFrom
-#' @import
+#' @import rlang dplyr
 NULL
