@@ -10,13 +10,13 @@
 
 calc_auc <- function(x, y) {
   # get the width between each point to get the width of the rectangle
-  width = lead(x) - x
+  width = abs(lead(x) - x)
 
   # get the height of the rectanlge
   height1 = y
 
   # get the height of the triangle
-  height2 = lead(y) - y
+  height2 = abs(lead(y) - y)
 
   # calculate the area of the rectanlge and the triangle
   area = width*(height1 + height2 * 0.5)
