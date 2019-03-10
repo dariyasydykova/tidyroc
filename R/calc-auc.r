@@ -21,6 +21,6 @@ calc_auc <- function(x, y) {
   # calculate the area of the rectanlge and the triangle
   area = width*(height1 + height2 * 0.5)
 
-    # sum all the rectangles and triangles
+  # sum all the rectangles and triangles
   sum(area, na.rm = TRUE)
 }
