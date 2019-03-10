@@ -4,6 +4,13 @@ tidyroc
 This is a repository for an R package `tidyroc`. `tidyroc` is currently
 under development, and I plan to release it this summer (summer 2019).
 
+Installation
+------------
+
+You can install `tidyroc` with the following command
+
+    remotes::install_github("dariyasydykova/tidyroc")
+
 Usage
 -----
 
@@ -19,7 +26,35 @@ Usage
 intended to work with `broom`, `dplyr`, and `ggplot2`. Here is a simple
 use case.
 
-    glm(outcome ~ clump_thickness + uniform_cell_shape, # fit a model with 2 predictors
+    # load tidyverse packages
+    library(tidyverse)
+    library(broom)
+
+    # load cowplot to change plot theme
+    library(cowplot)
+
+    # load tidyroc
+    library(tidyroc)
+
+    # get `biopsy` dataset from `MASS`
+    data(biopsy, package = "MASS")
+
+    # change column names from `V1`, `V2`, etc. to informative variable names
+    colnames(biopsy) <- 
+        c("ID",
+          "clump_thickness",
+          "uniform_cell_size",
+          "uniform_cell_shape",
+          "marg_adhesion",
+          "epithelial_cell_size",
+          "bare_nuclei",
+          "bland_chromatin",
+          "normal_nucleoli",
+          "mitoses",
+          "outcome")
+
+    # fit a logistic regression model to predict tumour type
+    glm(outcome ~ clump_thickness + uniform_cell_shape, 
       family = binomial,
       data = biopsy
     ) %>%
@@ -28,15 +63,10 @@ use case.
       ggplot(aes(x = fpr, y = tpr)) + # plot false positive rate against true positive rate
       geom_line()
 
-Examples
---------
+![](figures/unnamed-chunk-2-1.png)
 
-Before I make any plots, I fit two logitistic regression models. I will
-use the `iris` dataset for this purpose. First, I reduce `iris` to only
-contain data for two species of irises. This ensures that the outcome is
-binary.
-
-I load the libraries needed to run the examples below.
+Example with two logistic regression models
+-------------------------------------------
 
     # load tidyverse packages
     library(tidyverse)
@@ -49,12 +79,15 @@ I load the libraries needed to run the examples below.
     library(MASS)
 
     # load tidyroc
-    devtools::load_all(".")
+    library(tidyroc)
 
 I use the `biopsy` dataset from `MASS` package. This dataset contains
 information about biopsies of breast cancer tumours for 699 patients. I
 fit two logistic regression models that attempt to predict tumour type,
 benign or malignant.
+
+    # get `biopsy` dataset from `MASS`
+    data(biopsy, package = "MASS")
 
     # change column names from `V1`, `V2`, etc. to informative variable names
     colnames(biopsy) <- 
@@ -97,13 +130,13 @@ benign or malignant.
       scale_fill_manual(values = c("#F08A5D", "#B83B5E")) +
       facet_wrap(~ model)
 
-![](figures/unnamed-chunk-3-1.png)
+![](figures/unnamed-chunk-4-1.png)
 
 Now that I have fitted values, I can make a plot with two ROC curves and
 a plot with two precision-recall curves. I can also calculate the area
 under each of the ROC curves.
 
-#### Plot ROC curves for 2 different models
+### ROC curve
 
     # plot ROC curves
     glm_out %>%
@@ -115,9 +148,9 @@ under each of the ROC curves.
       scale_color_manual(values = c("#48466D", "#3D84A8")) +
       theme_cowplot()
 
-![](figures/unnamed-chunk-4-1.png)
+![](figures/unnamed-chunk-5-1.png)
 
-#### Plot precision-recall curves for 2 different models
+### Precision-recall curve
 
     # plot precision-recall curves using the data-frame we generated in the previous example
     glm_out %>%
@@ -129,9 +162,9 @@ under each of the ROC curves.
       scale_color_manual(values = c("#48466D", "#3D84A8")) +
       theme_cowplot()
 
-![](figures/unnamed-chunk-5-1.png)
+![](figures/unnamed-chunk-6-1.png)
 
-#### Calculate AUC of the two ROC curves
+### AUC values
 
     glm_out %>%
       group_by(model) %>% # group to get individual precision-recall curve for each model
@@ -143,8 +176,6 @@ under each of the ROC curves.
     ##   <chr> <dbl>
     ## 1 m1    0.996
     ## 2 m2    0.910
-
-#### Calculate AUC of the two precision-recall curves
 
     glm_out %>%
       group_by(model) %>% # group to get individual precision-recall curve for each model

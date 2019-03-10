@@ -11,7 +11,14 @@ knitr::opts_chunk$set(
 ```
 # tidyroc
 
-This is a repository for an R package `tidyroc`. `tidyroc` is currently under development, and I plan to release it this summer (summer 2019). 
+This is a repository for an R package `tidyroc`. `tidyroc` is currently under development, and I plan to release it this summer (summer 2019).
+
+## Installation
+
+You can install `tidyroc` with the following command
+```{r, eval=FALSE}
+remotes::install_github("dariyasydykova/tidyroc")
+```
 
 ## Usage
 
@@ -22,8 +29,36 @@ This is a repository for an R package `tidyroc`. `tidyroc` is currently under de
 * `calc_auc()` calculates the area under an ROC (AUC)
 
 `tidyroc` is designed to be integrated with the Tidyverse. It is intended to work with `broom`, `dplyr`, and `ggplot2`. Here is a simple use case.
-```{r, eval = FALSE}
-glm(outcome ~ clump_thickness + uniform_cell_shape, # fit a model with 2 predictors
+```{r, message = FALSE}
+# load tidyverse packages
+library(tidyverse)
+library(broom)
+
+# load cowplot to change plot theme
+library(cowplot)
+
+# load tidyroc
+library(tidyroc)
+
+# get `biopsy` dataset from `MASS`
+data(biopsy, package = "MASS")
+
+# change column names from `V1`, `V2`, etc. to informative variable names
+colnames(biopsy) <- 
+    c("ID",
+      "clump_thickness",
+      "uniform_cell_size",
+      "uniform_cell_shape",
+      "marg_adhesion",
+      "epithelial_cell_size",
+      "bare_nuclei",
+      "bland_chromatin",
+      "normal_nucleoli",
+      "mitoses",
+      "outcome")
+
+# fit a logistic regression model to predict tumour type
+glm(outcome ~ clump_thickness + uniform_cell_shape, 
   family = binomial,
   data = biopsy
 ) %>%
@@ -34,11 +69,8 @@ glm(outcome ~ clump_thickness + uniform_cell_shape, # fit a model with 2 predict
 ```
 
 
-## Examples
+## Example with two logistic regression models
 
-Before I make any plots, I fit two logitistic regression models. I will use the `iris` dataset for this purpose. First, I reduce `iris` to only contain data for two species of irises. This ensures that the outcome is binary. 
-
-I load the libraries needed to run the examples below.
 ```{r, message = FALSE}
 # load tidyverse packages
 library(tidyverse)
@@ -51,12 +83,15 @@ library(cowplot)
 library(MASS)
 
 # load tidyroc
-devtools::load_all(".")
+library(tidyroc)
 ```
 
 I use the `biopsy` dataset from `MASS` package. This dataset contains information about biopsies of breast cancer tumours for 699 patients. I fit two logistic regression models that attempt to predict tumour type, benign or malignant.
 
 ```{r, message = FALSE, fig.width=8, fig.height=4}
+# get `biopsy` dataset from `MASS`
+data(biopsy, package = "MASS")
+
 # change column names from `V1`, `V2`, etc. to informative variable names
 colnames(biopsy) <- 
     c("ID",
@@ -102,7 +137,7 @@ glm_out %>%
 
 Now that I have fitted values, I can make a plot with two ROC curves and a plot with two precision-recall curves. I can also calculate the area under each of the ROC curves.
 
-#### Plot ROC curves for 2 different models
+### ROC curve
 ```{r, message = FALSE}
 # plot ROC curves
 glm_out %>%
@@ -115,8 +150,7 @@ glm_out %>%
   theme_cowplot()
 ```
 
-
-#### Plot precision-recall curves for 2 different models
+### Precision-recall curve
 ```{r, message=FALSE}
 # plot precision-recall curves using the data-frame we generated in the previous example
 glm_out %>%
@@ -129,7 +163,7 @@ glm_out %>%
   theme_cowplot()
 ```
 
-#### Calculate AUC of the two ROC curves
+### AUC values
 ```{r}
 glm_out %>%
   group_by(model) %>% # group to get individual precision-recall curve for each model
@@ -137,7 +171,6 @@ glm_out %>%
   summarise(auc = calc_auc(x = fpr, y = tpr))
 ```
 
-#### Calculate AUC of the two precision-recall curves
 ```{r}
 glm_out %>%
   group_by(model) %>% # group to get individual precision-recall curve for each model
