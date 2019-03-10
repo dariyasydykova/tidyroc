@@ -9,6 +9,12 @@
 #'
 
 # this function calls `measure_perf()` to get true positive and false positive rates
+# this function works on grouped data-frames
+make_roc <- function(data, ...) {
+  dplyr::group_map(data, make_roc_ungrouped, ...)
+}
+
+# this function calls `measure_perf()` to get true positive and false positive rates
 # this function works on ungrouped data-frames
 make_roc_ungrouped <- function(data, key, predictor, known_class) {
   # use tidy eval
@@ -26,10 +32,4 @@ make_roc_ungrouped <- function(data, key, predictor, known_class) {
     dplyr::select(-c(tnr, fnr, ppv)) %>% # remove extra columns to keep data-frames simpler
     dplyr::add_row(tpr = 0, fpr = 0) %>% # add true positive = 0 and false positive = 0 to make sure an ROC curve is always anchored at 0, 0
     dplyr::arrange(fpr, tpr) # order output by false positive and then true positive rate to plot an ROC curve correctly
-}
-
-# this function calls `measure_perf()` to get true positive and false positive rates
-# this function works on grouped data-frames
-make_roc <- function(data, ...) {
-  group_map(data, make_roc_ungrouped, ...)
 }
