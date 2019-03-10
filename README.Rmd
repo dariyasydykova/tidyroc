@@ -23,7 +23,7 @@ This is a repository for an R package `tidyroc`. `tidyroc` is currently under de
 
 `tidyroc` is designed to be integrated with the Tidyverse. It is intended to work with `broom`, `dplyr`, and `ggplot2`. Here is a simple use case.
 ```{r, eval = FALSE}
-glm(outcome ~ clump_thickness + uniform_cell_shape, # fit a model using 3 predictors
+glm(outcome ~ clump_thickness + uniform_cell_shape, # fit a model with 2 predictors
   family = binomial,
   data = biopsy
 ) %>%

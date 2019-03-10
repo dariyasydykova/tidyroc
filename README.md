@@ -19,7 +19,7 @@ Usage
 intended to work with `broom`, `dplyr`, and `ggplot2`. Here is a simple
 use case.
 
-    glm(outcome ~ clump_thickness + uniform_cell_shape, # fit a model using 3 predictors
+    glm(outcome ~ clump_thickness + uniform_cell_shape, # fit a model with 2 predictors
       family = binomial,
       data = biopsy
     ) %>%
