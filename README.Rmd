@@ -54,9 +54,9 @@ library(MASS)
 devtools::load_all(".")
 ```
 
-I reduce the `iris` dataset to contain information only about virginica and versicolor. I fit two logistic regression models that attempt to predict the two species of irises. The first model tries uses petal width, petal length, and sepal width as predictors. The second model uses only sepal width as a predictor.
+I use the `biopsy` dataset from `MASS` package. This dataset contains information about biopsies of breast cancer tumours for 699 patients. I fit two logistic regression models that attempt to predict tumour type, benign or malignant.
 
-```{r, message = FALSE}
+```{r, message = FALSE, fig.width=8, fig.height=4}
 # change column names from `V1`, `V2`, etc. to informative variable names
 colnames(biopsy) <- 
     c("ID",
@@ -98,6 +98,8 @@ glm_out %>%
   scale_fill_manual(values = c("#F08A5D", "#B83B5E")) +
   facet_wrap(~ model)
 ```
+
+
 Now that I have fitted values, I can make a plot with two ROC curves and a plot with two precision-recall curves. I can also calculate the area under each of the ROC curves.
 
 #### Plot ROC curves for 2 different models
