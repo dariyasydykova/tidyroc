@@ -25,4 +25,21 @@ test_that("area under the curve is correct", {
   )
 
   expect_equal(calc_auc(x = df$x, y = df$y), 0)
+
+  # precision-recall is a right angle (AUC = 1)
+  df <- data.frame(
+    x = c(0, 1, 1),
+    y = c(1, 1, 0.5)
+  )
+
+  expect_equal(calc_auc(x = df$x, y = df$y), 1)
+
+  # precision-recall is a line in the middle (AUC = 0.5)
+  df <- data.frame(
+    x = c(0, 0, 1),
+    y = c(1, 0.5, 0.5)
+  )
+
+  expect_equal(calc_auc(x = df$x, y = df$y), 0.5)
+
 })
