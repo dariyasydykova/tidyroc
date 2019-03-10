@@ -131,7 +131,7 @@ under each of the ROC curves.
 
 ![](figures/unnamed-chunk-5-1.png)
 
-#### Calculate AUC of two ROC curves
+#### Calculate AUC of the two ROC curves
 
     glm_out %>%
       group_by(model) %>% # group to get individual precision-recall curve for each model
@@ -143,3 +143,16 @@ under each of the ROC curves.
     ##   <chr> <dbl>
     ## 1 m1    0.996
     ## 2 m2    0.910
+
+#### Calculate AUC of the two precision-recall curves
+
+    glm_out %>%
+      group_by(model) %>% # group to get individual precision-recall curve for each model
+      make_pr(predictor = .fitted, known_class = outcome) %>%
+      summarise(auc = calc_auc(x = recall, y = precision))
+
+    ## # A tibble: 2 x 2
+    ##   model   auc
+    ##   <chr> <dbl>
+    ## 1 m1    0.991
+    ## 2 m2    0.951

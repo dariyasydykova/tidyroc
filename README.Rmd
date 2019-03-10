@@ -129,7 +129,7 @@ glm_out %>%
   theme_cowplot()
 ```
 
-#### Calculate AUC of two ROC curves
+#### Calculate AUC of the two ROC curves
 ```{r}
 glm_out %>%
   group_by(model) %>% # group to get individual precision-recall curve for each model
@@ -137,3 +137,10 @@ glm_out %>%
   summarise(auc = calc_auc(x = fpr, y = tpr))
 ```
 
+#### Calculate AUC of the two precision-recall curves
+```{r}
+glm_out %>%
+  group_by(model) %>% # group to get individual precision-recall curve for each model
+  make_pr(predictor = .fitted, known_class = outcome) %>%
+  summarise(auc = calc_auc(x = recall, y = precision))
+```
