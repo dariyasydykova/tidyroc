@@ -15,7 +15,7 @@ calc_tpr <- function(pred_values, pos_pred, pos){
     function(x) if (is.na(x)) {
       NA
     } else{
-      sum(pos_pred >= x, na.rm = FALSE) / pos
+      sum(pos_pred >= x, na.rm = TRUE) / pos
     }
   )
 
@@ -29,7 +29,7 @@ calc_fpr <-function(pred_values, neg_pred, neg){
     function(x) if (is.na(x)) {
       NA
     } else {
-      sum(neg_pred >= x, na.rm = FALSE) / neg
+      sum(neg_pred >= x, na.rm = TRUE) / neg
     }
   )
 
@@ -43,7 +43,7 @@ calc_tnr <- function(pred_values, neg_pred, neg){
     function(x) if (is.na(x)) {
       NA
     } else {
-      sum(neg_pred < x, na.rm = FALSE) / neg
+      sum(neg_pred < x, na.rm = TRUE) / neg
     }
   )
 
@@ -57,7 +57,7 @@ calc_fnr <-function(pred_values, pos_pred, pos){
     function(x) if (is.na(x)) {
       NA
     } else {
-      sum(pos_pred < x, na.rm = FALSE) / pos
+      sum(pos_pred < x, na.rm = TRUE) / pos
     }
   )
 
@@ -71,11 +71,17 @@ calc_ppv <- function(pred_values, pos_pred, neg_pred){
     function(x) if (is.na(x)) {
       NA
     } else {
-      sum(pos_pred >= x, na.rm = FALSE) / (sum(pos_pred >= x, na.rm = FALSE) + sum(neg_pred >= x, na.rm = FALSE))
+      sum(pos_pred >= x, na.rm = TRUE) / (sum(pos_pred >= x, na.rm = TRUE) + sum(neg_pred >= x, na.rm = TRUE))
     }
   )
 
   pos_pred_value
+}
+
+# this function uses predictor values and known classification to measure performace of a binary classification model
+# this function works on grouped data-frames
+measure_perf <- function(data, ...) {
+  group_map(data, measure_perf_ungrouped, ...)
 }
 
 # this function uses predictor values and known classification to measure performace of a binary classification model
@@ -94,8 +100,8 @@ measure_perf_ungrouped <- function(data, key, predictor, known_class) {
   pos_values <- as.numeric(factor(known_values)) - 1 # use factors to match glm() output
 
   # count total positives and total negatives to calculate true positive and false positive rates
-  pos <- sum(pos_values, na.rm = FALSE) # total known positives
-  neg <- sum(1 - pos_values, na.rm = FALSE) # total known negatives
+  pos <- sum(pos_values, na.rm = TRUE) # total known positives
+  neg <- sum(1 - pos_values, na.rm = TRUE) # total known negatives
 
   # get predictor values for positive and negative outcomes to figure out whether it is a true positive or a false positive
   pos_pred <- pred_values[pos_values == 1] # predictors for known positives
@@ -110,10 +116,4 @@ measure_perf_ungrouped <- function(data, key, predictor, known_class) {
       fnr = calc_fnr(pred_values, pos_pred, pos),
       ppv = calc_ppv(pred_values, pos_pred, neg_pred)
     )
-}
-
-# this function uses predictor values and known classification to measure performace of a binary classification model
-# this function works on grouped data-frames
-measure_perf <- function(data, ...) {
-  group_map(data, measure_perf_ungrouped, ...)
 }
