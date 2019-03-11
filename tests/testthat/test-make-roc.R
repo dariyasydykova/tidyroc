@@ -2,7 +2,7 @@ context("test-make-roc")
 
 test_that("ROC curve values are correct", {
 
-  # predictor perfectly separate the two outcomes
+  # predictor perfectly separates the two outcomes
   df <- data.frame(
     predictor = c(0, 0, 0, 10, 10, 10),
     known_class = c(0, 0, 0, 1, 1, 1) # 1 is positive, 0 is negative
