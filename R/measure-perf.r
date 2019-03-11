@@ -131,11 +131,11 @@ measure_perf_ungrouped <- function(data, key, predictor, known_class) {
 
   # if any of predictor = NA, change to positive = 1 or positive = 0 to positive = NA
   # this ensures that the positive or negative is omitted from further calculations
-  if (any(is.na(pred_values))) pos_values[which(is.na(pred_values))] <- NA
+  pos_values <- ifelse(is.na(pred_values), NA, pos_values)
 
   # if any of known_class = NA, change predictor to predictor = NA
   # this ensure that tpr, fpr, tnr, fnr, and ppv become NA
-  if (any(is.na(pos_values))) pred_values[which(is.na(pos_values))] <- NA
+  pred_values <- ifelse(is.na(pos_values), NA, pred_values)
 
   # count total positives and total negatives to calculate true positive and false positive rates
   pos <- sum(pos_values, na.rm = TRUE) # total known positives
