@@ -26,41 +26,17 @@ Usage
 intended to work with `broom`, `dplyr`, and `ggplot2`. Here is a simple
 use case.
 
-    # load tidyverse packages
     library(tidyverse)
     library(broom)
-
-    # load cowplot to change plot theme
-    library(cowplot)
-
-    # load tidyroc
     library(tidyroc)
 
-    # get `biopsy` dataset from `MASS`
-    data(biopsy, package = "MASS")
-
-    # change column names from `V1`, `V2`, etc. to informative variable names
-    colnames(biopsy) <- 
-        c("ID",
-          "clump_thickness",
-          "uniform_cell_size",
-          "uniform_cell_shape",
-          "marg_adhesion",
-          "epithelial_cell_size",
-          "bare_nuclei",
-          "bland_chromatin",
-          "normal_nucleoli",
-          "mitoses",
-          "outcome")
-
-    # fit a logistic regression model to predict tumour type
-    glm(outcome ~ clump_thickness + uniform_cell_shape, 
+    glm(am ~ disp, 
       family = binomial,
-      data = biopsy
+      data = mtcars
     ) %>%
-      augment() %>% # use broom to add glm output to the original data frame
-      make_roc(predictor = .fitted, known_class = outcome) %>% # get values to plot an ROC curve
-      ggplot(aes(x = fpr, y = tpr)) + # plot false positive rate against true positive rate
+      augment() %>%
+      make_roc(predictor = .fitted, known_class = am) %>%
+      ggplot(aes(x = fpr, y = tpr)) + 
       geom_line()
 
 ![](figures/unnamed-chunk-2-1.png)
