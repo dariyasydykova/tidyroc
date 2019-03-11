@@ -1,12 +1,46 @@
 #' Precision-recall curve
 #'
-#' this function calculates precision and recall to plot a precision-recall curve
-#' @param probabilities
+#' This function calculates precision and recall to plot a precision-recall curve
+#' @param data data-frame that contains fitted values and known outcomes
+#' @param predictor column in `data` that contains fitted values
+#' @param known_class column in `data` that contains true or actual classification
 #'
 #' @keywords
 #' @export
 #' @examples
-
+#' library(tidyverse)
+#' library(broom)
+#' library(tidyroc)
+#'
+#' # get `biopsy` dataset from `MASS`
+#' data(biopsy, package = "MASS")
+#'
+#' # change column names from `V1`, `V2`, etc. to informative variable names
+#' colnames(biopsy) <-
+#'   c(
+#'     "ID",
+#'     "clump_thickness",
+#'     "uniform_cell_size",
+#'     "uniform_cell_shape",
+#'     "marg_adhesion",
+#'     "epithelial_cell_size",
+#'     "bare_nuclei",
+#'     "bland_chromatin",
+#'     "normal_nucleoli",
+#'     "mitoses",
+#'     "outcome"
+#'   )
+#'
+#' # fit a logistic regression model to predict tumour type
+#' glm(outcome ~ clump_thickness + uniform_cell_shape,
+#'   family = binomial,
+#'   data = biopsy
+#' ) %>%
+#'   augment() %>% # use broom to add glm output to the original data frame
+#'   make_pr(predictor = .fitted, known_class = outcome) %>% # get values to plot an ROC curve
+#'   ggplot(aes(x = recall, y = precision)) + # plot false positive rate against true positive rate
+#'   geom_line()
+#'
 # this function calls `measure_perf()` to get precision and recall
 # this function works on grouped data-frames
 make_pr <- function(data, ...) {

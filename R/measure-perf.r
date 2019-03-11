@@ -1,6 +1,6 @@
 #' Measure model performance
 #'
-#' This function evaluates a binary classification model. The function calculates true positive rate, false positive rate, true negative rate, false negative rate, and positive predictive value.
+#' This function evaluates a binary classification model. The function calculates true positive rate, false positive rate, true negative rate, false negative rate, and positive predictive value. These values are added to the data-frame provided in `data`.
 #' @param data data-frame that contains fitted values and known outcomes
 #' @param predictor column in `data` that contains fitted values
 #' @param known_class column in `data` that contains true or actual classification
@@ -8,14 +8,8 @@
 #' @keywords
 #' @export
 #' @examples
-#' # load tidyverse packages
 #' library(tidyverse)
 #' library(broom)
-#'
-#' # load cowplot to change plot theme
-#' library(cowplot)
-#'
-#' # load tidyroc
 #' library(tidyroc)
 #'
 #' # get `biopsy` dataset from `MASS`
@@ -40,10 +34,8 @@
 #'    family = binomial,
 #'    data = biopsy
 #' ) %>%
-#'  augment() %>% # use broom to add glm output to the #' original data frame
-#'  make_roc(predictor = .fitted, known_class = outcome) %>% # get values to plot an ROC curve
-#'  ggplot(aes(x = fpr, y = tpr)) + # plot false positive rate against true positive rate
-#'  geom_line()
+#'  augment() %>% # use broom to add glm output to the original data frame
+#'  measure_perf(predictor = .fitted, known_class = outcome)
 #'
 
 # this functions calculates the true positive rate (tpr)
