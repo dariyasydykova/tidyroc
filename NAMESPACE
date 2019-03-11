@@ -2,7 +2,7 @@
 
 export(calc_auc)
 export(calc_tpr)
-export(make_conf_matrix_ungrouped)
+export(make_conf_matrix)
 export(make_pr)
 export(make_roc)
 import(dplyr)
