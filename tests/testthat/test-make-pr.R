@@ -45,4 +45,25 @@ test_that("precision-recall curve is plotted correctly", {
       arrange(recall, desc(precision))
   )
 
+  # predictor contains infinity
+  df <- data.frame(
+    predictor = c(-Inf, 0, 0, 10, 10, 10),
+    known_class = c(0, 0, 0, 1, 1, 1) # 1 is positive, 0 is negative
+  )
+
+  # precision-recall should be a right angle
+  expect_equal(
+    df %>% make_pr(predictor, known_class),
+    df %>%
+      add_row(
+        predictor = NA,
+        known_class = NA,
+        .before = 1) %>%
+      cbind(
+        recall = c(0, 1, 1, 1, 1, 1, 1),
+        precision = c(1, 3/6, 3/6, 3/6, 3/3, 3/3, 3/3)
+      ) %>%
+      arrange(recall, desc(precision))
+  )
+
 })
