@@ -54,10 +54,10 @@ Example with two logistic regression models
     # load tidyroc
     library(tidyroc)
 
-I use the `biopsy` dataset from `MASS` package. This dataset contains
-information about biopsies of breast cancer tumours for 699 patients. I
-fit two logistic regression models that attempt to predict tumour type,
-benign or malignant.
+I use the `biopsy` dataset from the `MASS` package. This dataset
+contains information about biopsies of breast cancer tumors for 699
+patients. I fit two logistic regression models that attempt to predict
+tumor type (benign or malignant).
 
     # get `biopsy` dataset from `MASS`
     data(biopsy, package = "MASS")
@@ -107,7 +107,8 @@ benign or malignant.
 
 Now that I have fitted values, I can make a plot with two ROC curves and
 a plot with two precision-recall curves. I can also calculate the area
-under each of the ROC curves.
+under each of the ROC curves and the area under each of the
+precision-recall curves.
 
 ### ROC curve
 
@@ -140,7 +141,7 @@ under each of the ROC curves.
 ### AUC values
 
     glm_out %>%
-      group_by(model) %>% # group to get individual precision-recall curve for each model
+      group_by(model) %>% # group to get individual AUC values for each ROC curve
       make_roc(predictor = .fitted, known_class = outcome) %>%
       summarise(auc = calc_auc(x = fpr, y = tpr))
 
@@ -151,7 +152,7 @@ under each of the ROC curves.
     ## 2 m2    0.910
 
     glm_out %>%
-      group_by(model) %>% # group to get individual precision-recall curve for each model
+      group_by(model) %>% # group to get individual AUC values for each precision-recall curve
       make_pr(predictor = .fitted, known_class = outcome) %>%
       summarise(auc = calc_auc(x = recall, y = precision))
 
