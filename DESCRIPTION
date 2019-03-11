@@ -1,11 +1,15 @@
 Package: tidyroc
 Title: Calculates ROC and precision-recall curves
 Version: 0.0.0.9000
-Authors@R: 
-    person(given = "Dariya",
-           family = "Sydykova", 
-           role = c("aut", "cre"),
-           email = "dariya.k.sydykova@gmail.com")
+Authors@R: c(
+  person(given = "Dariya",
+         family = "Sydykova", 
+         role = c("aut", "cre"),
+         email = "dariya.k.sydykova@gmail.com"),
+  person(given = "Claus",
+         family = "Wilke", 
+         role = "aut")
+  )
 Description: This packages calculates necessary values to plot ROC and precision-recall curves. The functions in this package are meant to be integrated with the Tidyverse, specifically, with the packages `broom`, `dplyr`, and `ggplot2`. 
 URL: https://github.com/dariyasydykova/tidyroc
 Depends: R (>= 3.5.2)
