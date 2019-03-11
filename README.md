@@ -51,9 +51,6 @@ Example with two logistic regression models
     # load cowplot to change plot theme
     library(cowplot)
 
-    # load MASS to access `biopsy` dataset
-    library(MASS)
-
     # load tidyroc
     library(tidyroc)
 
