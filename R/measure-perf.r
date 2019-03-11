@@ -1,6 +1,6 @@
 #' Measure model performance
 #'
-#' This function evaluates binary classification for different predictor values. The function calculates true positive rate, false positive rate, true negative rate, false negative rate, and positive predictive value for each given predictor value.
+#' This function evaluates a binary classification model. The function calculates true positive rate, false positive rate, true negative rate, false negative rate, and positive predictive value.
 #' @param data data-frame that contains fitted values and known outcomes
 #' @param predictor column in `data` that contains fitted values
 #' @param known_class column in `data` that contains true or actual classification
