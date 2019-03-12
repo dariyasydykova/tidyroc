@@ -39,13 +39,16 @@
 #'
 
 # this functions calculates the true positive rate (tpr)
-calc_tpr <- function(pred_values, pos_pred, pos){
+# pred_values = predictors or fitted values
+# pos_pred = predictor values for known positive outcomes
+# npos = total number of known positives
+calc_tpr <- function(pred_values, pos_pred, npos){
   true_pos_rate <- sapply(
     pred_values,
     function(x) if (is.na(x)) {
       NA
     } else{
-      sum(pos_pred >= x, na.rm = TRUE) / pos
+      sum(pos_pred >= x, na.rm = TRUE) / npos
     }
   )
 
@@ -53,13 +56,16 @@ calc_tpr <- function(pred_values, pos_pred, pos){
 }
 
 # this functions calculates the false positive rate (fpr)
-calc_fpr <-function(pred_values, neg_pred, neg){
+# pred_values = predictors or fitted values
+# neg_pred = predictor values for known negative outcomes
+# nneg = total number of known negatives
+calc_fpr <-function(pred_values, neg_pred, nneg){
   false_pos_rate <- sapply(
     pred_values,
     function(x) if (is.na(x)) {
       NA
     } else {
-      sum(neg_pred >= x, na.rm = TRUE) / neg
+      sum(neg_pred >= x, na.rm = TRUE) / nneg
     }
   )
 
@@ -67,13 +73,13 @@ calc_fpr <-function(pred_values, neg_pred, neg){
 }
 
 # this functions calculates the true negative rate (tnr)
-calc_tnr <- function(pred_values, neg_pred, neg){
+calc_tnr <- function(pred_values, neg_pred, nneg){
   true_neg_rate <- sapply(
     pred_values,
     function(x) if (is.na(x)) {
       NA
     } else {
-      sum(neg_pred < x, na.rm = TRUE) / neg
+      sum(neg_pred < x, na.rm = TRUE) / nneg
     }
   )
 
@@ -81,13 +87,13 @@ calc_tnr <- function(pred_values, neg_pred, neg){
 }
 
 # this functions calculates the false negative rate (fnr)
-calc_fnr <-function(pred_values, pos_pred, pos){
+calc_fnr <-function(pred_values, pos_pred, npos){
   false_neg_rate <- sapply(
     pred_values,
     function(x) if (is.na(x)) {
       NA
     } else {
-      sum(pos_pred < x, na.rm = TRUE) / pos
+      sum(pos_pred < x, na.rm = TRUE) / npos
     }
   )
 
@@ -138,8 +144,8 @@ measure_perf_ungrouped <- function(data, key, predictor, known_class) {
   pred_values <- ifelse(is.na(pos_values), NA, pred_values)
 
   # count total positives and total negatives to calculate true positive and false positive rates
-  pos <- sum(pos_values, na.rm = TRUE) # total known positives
-  neg <- sum(1 - pos_values, na.rm = TRUE) # total known negatives
+  npos <- sum(pos_values, na.rm = TRUE) # total known positives
+  nneg <- sum(1 - pos_values, na.rm = TRUE) # total known negatives
 
   # get predictor values for positive and negative outcomes to figure out whether it is a true positive or a false positive
   pos_pred <- pred_values[pos_values == 1 & !is.na(pos_values)] # predictors for known positives
@@ -148,10 +154,10 @@ measure_perf_ungrouped <- function(data, key, predictor, known_class) {
   # adds true positive rate and false positive rate to the data-frame `data`
   data %>%
     dplyr::mutate(
-      tpr = calc_tpr(pred_values, pos_pred, pos),
-      fpr = calc_fpr(pred_values, neg_pred, neg),
-      tnr = calc_tnr(pred_values, neg_pred, neg),
-      fnr = calc_fnr(pred_values, pos_pred, pos),
+      tpr = calc_tpr(pred_values, pos_pred, npos),
+      fpr = calc_fpr(pred_values, neg_pred, nneg),
+      tnr = calc_tnr(pred_values, neg_pred, nneg),
+      fnr = calc_fnr(pred_values, pos_pred, npos),
       ppv = calc_ppv(pred_values, pos_pred, neg_pred)
     )
 }
